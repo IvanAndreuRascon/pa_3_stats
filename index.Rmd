@@ -15,16 +15,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load, echo=FALSE}
 library(tidyverse)
 library(ds4ling)
+library(languageR)
 ```
 ## 1. Load the data set of your choice and get information about its structure (remember all code needs to be inside a knitr code chunk).
 
 ```{r, echo=FALSE}
-mtcars
+str(english)
+head(english)
 
-head(mtcars)
-tail(mtcars)
-
-#data is already tidy
+#data is already tidied
 ```
 
 
@@ -34,20 +33,8 @@ tail(mtcars)
 
 
 ```{r, echo=FALSE}
-summary(mtcars)
+summary(english)
 
-mutate(mtcars, mpg_z = (mpg - mean(mpg))/ sd(mpg))
-
-mutate(mtcars, hp_z = (hp - mean(hp))/ sd(hp))
-
-
-mtcars %>%
-  select(mpg, cyl) %>%
-  filter(cyl<=6 ) %>%
-  t.test(mpg ~ cyl, data =.)
-
-# I tried to analyze the mpg in vehicles that have 4 and 6 cylinders. 
-#I was expecting a higher P value, as a vehicle with 6 cylinders should have a lower mpg than the one with 4, however my P value was 0.0004048
 
 ```
 
@@ -57,10 +44,15 @@ mtcars %>%
 ```{r, echo=FALSE}
 
 # bivariate regression model
-model <- lm(mpg ~ cyl, data = mtcars)
+model <- lm(RTnaming  ~ Familiarity, data = english)
 
 # model 
 summary(model)
+
+
+second_model <- lm(WrittenFrequency ~ Familiarity, data = english)
+summary(second_model)
+
 
 ```
 
@@ -69,24 +61,24 @@ summary(model)
 ## 5. Generate a plot that includes a regression line.
 
 ```{r}
-mtcars %>% 
-ggplot(aes(x = mpg, y = cyl)) + 
+english %>% 
+ggplot(aes(x = Familiarity, y = RTnaming)) + 
   geom_point(alpha = 0.05) +
   geom_smooth(method = "lm", color = "red", size = 1, se = FALSE) +
-  labs(x = "Miles per galon", y = "Cylinders",
-       title = "How can I save money?")
+  labs(x = "Familiarity", y = "RTnaming",
+       title = "Reaction time and Familiarity")
 ```
 
 
 
 ```{r}
 
-mtcars %>% 
-ggplot(aes(x = mpg, y = hp)) + 
+english %>% 
+ggplot(aes(x = WrittenFrequency, y = RTnaming)) + 
   geom_point(alpha = 0.05) +
   geom_smooth(method = "lm", color = "blue", size = 1, se = FALSE) +
-  labs(x = "Miles per galon", y = "Horse Power",
-       title = "How can I save money 2.0")
+  labs(x = "WrittenFrequency", y = "RTnaming",
+       title = "Reaction time and Written Frequency")
 
 
 ```
@@ -96,11 +88,10 @@ ggplot(aes(x = mpg, y = hp)) +
 ## 6. Write up some general observations (1-2 paragraphs max)
 
 
-I analyzed the relation between MPG, horsepower, and cylinders in the previous plots.
-The plots show how the mpg increases as the cylinders and horsepower decrease.
-
-**Conclusion to save money on gas, you must buy a car with fewer cylinders and horsepower.** 
-
+The scatter plots show a correlation between reaction time, familiarity and frequency.
+As it can be expected, as frequency and familiarity increase, reaction time decreases.
+Additionally, if we take a closer look at the p-values, between reaction time and familiarity, we obtain 1.367e-10, which is a number close to 0. 
+We might still need more information to determine if this result is significant (although it looks like it), but the question is, can we reject the Null-Hupothesis?
 
 
 
