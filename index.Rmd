@@ -91,6 +91,7 @@ ggplot(aes(x = WrittenFrequency, y = RTnaming)) +
 The scatter plots show a correlation between reaction time, familiarity and frequency.
 As it can be expected, as frequency and familiarity increase, reaction time decreases.
 Additionally, if we take a closer look at the p-values, between reaction time and familiarity, we obtain 1.367e-10, which is a number close to 0. 
+The smaller (closer to 0) the p-value, the stronger is the evidence against the null hypothesis. 
 We might still need more information to determine if this result is significant (although it looks like it), but the question is, can we reject the Null-Hupothesis?
 
 
